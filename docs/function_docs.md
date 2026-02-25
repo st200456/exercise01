@@ -2,7 +2,7 @@
 This page gives an overview of all the tool’s functions and custom classes, explaining what they do, their input parameters, and the types of data they return.
 ## Main.py
 This script is the main entry point of the terrain-processing workflow. It validates an Area of Interest (AOI), downloads a DEM, aligns landcover data, computes roughness, extracts the thalweg, and generates an elevation profile along the extracted flow path.
-The main.py file serves as the entry point of the application.
+The `Main.py` file serves as the entry point of the application.
 ### Overview
 It orchestrates all processing steps by calling the following custom classes:
  - AOI
@@ -14,7 +14,7 @@ It orchestrates all processing steps by calling the following custom classes:
 
 All outputs are saved inside the /data and /results directories.
 ### AOIValidator Class
-A class for validating Area of Interest (AOI) bounding box coordinates before DEM data acquisition.
+A class for validating `Area of Interest (AOI)` bounding box coordinates before DEM data acquisition.
 #### Methods
 `__init__(self, west, south, east, north)`
 
