@@ -16,7 +16,7 @@ All outputs are saved inside the /data and /results directories.
 ### AOIValidator Class
 A class for validating Area of Interest (AOI) bounding box coordinates before DEM data acquisition.
 #### Methods
-'__init__(self, west, south, east, north)'
+`__init__(self, west, south, east, north)`
 Initializes the AOI validator with bounding box coordinates.
 - west (float): Western longitude
 - south (float): Southern latitude
