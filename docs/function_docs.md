@@ -65,11 +65,11 @@ Returns the bounding box coordinates as a dictionary.
 
 - Returns: dict with keys: `west`, `south`, `east`, `north`
 
-### DemFetcher Class
+## DemFetcher Class
 
 A class for downloading Digital Elevation Model (DEM) data from the OpenTopography API using the SRTMGL1 dataset.
 
-#### Methods
+### Methods
 
 `__init__(self, api_key=None)`
 
@@ -95,11 +95,11 @@ Returns: Path to the downloaded DEM file
 
 Raises: Exception if the API request fails
 
-### Landcover Class
+## Landcover Class
 
 A class for matching landcover raster data to the DEM resolution, extent, and coordinate system.
 
-#### Methods
+### Methods
 
 `__init__(self, output_file, output_src, output_landcover_file)`
 
@@ -115,16 +115,41 @@ Initializes the landcover matcher.
 
 Resamples and aligns the landcover raster to match the DEM projection, extent, and resolution.
 
-Returns: `Path` to the matched landcover raster file
+- Returns: `Path` to the matched landcover raster file
 
 `__str__(self)`
 
 Returns a string description of the matching process.
 
-Returns: `str` describing the input and output raster files
+- Returns: `str` describing the input and output raster files
 
-## AOIValidator Class
-::: raster
+## Roughness Class
+
+A class for computing a Manning’s n roughness raster from landcover data.
+
+### Methods
+`__init__(self, landcover_file, out_file)`
+
+Initializes the roughness calculation.
+
+- `landcover_file`: Input landcover raster file
+
+- `out_file`: Output roughness raster file
+
+`compute(self)`
+
+Generates a roughness raster by mapping landcover classes to Manning’s n coefficients.
+
+- Returns: Path to the generated roughness raster file
+
+- Raises: RuntimeError if the landcover raster cannot be opened
+
+`__str__(self)`
+
+Returns a string description of the roughness computation.
+
+- Returns: str describing the input and output raster files
+
 ## AOIValidator Class
 ::: raster
 ## AOIValidator Class
