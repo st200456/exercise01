@@ -3,7 +3,7 @@ This page gives an overview of all the tool’s functions and custom classes, ex
 ## Main.py
 This script is the main entry point of the terrain-processing workflow. It validates an Area of Interest (AOI), downloads a DEM, aligns landcover data, computes roughness, extracts the thalweg, and generates an elevation profile along the extracted flow path.
 The main.py file serves as the entry point of the application.
-### Overview
+# Overview
 It orchestrates all processing steps by calling the following custom classes:
  - AOI
  - DEMFetcher
