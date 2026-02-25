@@ -2,6 +2,7 @@
 This page gives an overview of all the tool’s functions and custom classes, explaining what they do, their input parameters, and the types of data they return.
 ## Main.py
 This script is the main entry point of the terrain-processing workflow. It validates an Area of Interest (AOI), downloads a DEM, aligns landcover data, computes roughness, extracts the thalweg, and generates an elevation profile along the extracted flow path.
+
 The `Main.py` file serves as the entry point of the application.
 ### Overview
 It orchestrates all processing steps by calling the following custom classes:
@@ -64,8 +65,36 @@ Returns the bounding box coordinates as a dictionary.
 
 - Returns: dict with keys: `west`, `south`, `east`, `north`
 
-## pdfdocument.py
-::: pdfdocument
+### DemFetcher Class
+
+A class for downloading Digital Elevation Model (DEM) data from the OpenTopography API using the SRTMGL1 dataset.
+
+#### Methods
+
+`__init__(self, api_key=None)`
+
+Initializes the DEM fetcher.
+
+- `api_key` (`str` or `None`): OpenTopography API key for higher request limits
+
+`download(self, south, north, west, east, output_file="dem_wgs84.tif")`
+
+Downloads a DEM GeoTIFF file for the specified bounding box.
+
+- `south` (`float`): Southern latitude boundary
+
+- `north` (`float`): Northern latitude boundary
+
+- `west` (`float`): Western longitude boundary
+
+- `east` (`float`): Eastern longitude boundary
+
+- `output_file` (`str` or `Path`): Output file path for the DEM
+
+- Returns: Path to the downloaded DEM file
+
+- Raises: Exception if the API request fails
+
 ## AOIValidator Class
 ::: raster
 ## AOIValidator Class
