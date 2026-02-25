@@ -91,12 +91,38 @@ Downloads a DEM GeoTIFF file for the specified bounding box.
 
 - `output_file` (`str` or `Path`): Output file path for the DEM
 
-- Returns: Path to the downloaded DEM file
+Returns: Path to the downloaded DEM file
 
-- Raises: Exception if the API request fails
+Raises: Exception if the API request fails
 
-## AOIValidator Class
-::: raster
+### Landcover Class
+
+A class for matching landcover raster data to the DEM resolution, extent, and coordinate system.
+
+#### Methods
+
+`__init__(self, output_file, output_src, output_landcover_file)`
+
+Initializes the landcover matcher.
+
+- `output_file` (`str` or `Path`): Reference raster file (DEM)
+
+- `output_src` (`str` or `Path`): Source landcover raster
+
+- `output_landcover_file` (`str` or `Path`): Output matched landcover file
+
+`match(self)`
+
+Resamples and aligns the landcover raster to match the DEM projection, extent, and resolution.
+
+Returns: `Path` to the matched landcover raster file
+
+`__str__(self)`
+
+Returns a string description of the matching process.
+
+Returns: `str` describing the input and output raster files
+
 ## AOIValidator Class
 ::: raster
 ## AOIValidator Class
