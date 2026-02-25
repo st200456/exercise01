@@ -48,7 +48,7 @@ Checks that coordinates fall within valid WGS84 ranges.
 
 - Raises: `ValueError` if out of range
 
-_check_logic(self)
+`_check_logic(self)`
 
 Checks that min/max coordinate order is correct.
 
@@ -58,7 +58,7 @@ Checks that min/max coordinate order is correct.
 
 - Raises: `ValueError` if bounding box order is invalid
 
-get_bbox(self)
+`get_bbox(self)`
 
 Returns the bounding box coordinates as a dictionary.
 
