@@ -25,13 +25,15 @@ Initializes the AOI validator with bounding box coordinates.
 - north (float): Northern latitude
   
 `validate(self)`
-Runs validation checks on the coordinates (type, geographic range, and logical order)
 
-Returns: bool indicating whether the AOI is valid
+Runs all verification checks (type, range, and logical order).
 
-Raises: ValueError if validation fails
+- Returns: `bool` (`True` if valid)
+
+- Raises: `ValueError` if validation fails
 
 `get_bbox(self)`
+
 Returns the bounding box coordinates as a dictionary
 
 Returns: dict containing west, south, east, and north coordinates
