@@ -36,7 +36,33 @@ Runs all verification checks (type, range, and logical order).
 
 Checks that all inputs are numeric (`int` or `float`).
 
-Raises: `ValueError` if any coordinate is not numeric
+- Raises: `ValueError` if any coordinate is not numeric
+
+`_check_ranges(self)`
+
+Checks that coordinates fall within valid WGS84 ranges.
+
+- Longitude must be between `-180` and `180`
+
+- Latitude must be between `-90` and `90`
+
+- Raises: `ValueError` if out of range
+
+_check_logic(self)
+
+Checks that min/max coordinate order is correct.
+
+- `west < east`
+
+- `south < north`
+
+- Raises: `ValueError` if bounding box order is invalid
+
+get_bbox(self)
+
+Returns the bounding box coordinates as a dictionary.
+
+- Returns: dict with keys: `west`, `south`, `east`, `north`
 
 ## pdfdocument.py
 ::: pdfdocument
