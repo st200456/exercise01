@@ -11,6 +11,7 @@ It orchestrates all processing steps by calling the following custom classes:
  - RoughnessCalculator
  - ThalwegExtractor
  - ProfileSampler
+
 All outputs are saved inside the /data and /results directories.
 ### AOIValidator Class
 A class for validating Area of Interest (AOI) bounding box coordinates before DEM data acquisition.
