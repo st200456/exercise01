@@ -14,9 +14,9 @@ It orchestrates all processing steps by calling the following custom classes:
  - ProfileSampler
 
 All outputs are saved inside the /data and /results directories.
-### AOIValidator Class
+## AOIValidator Class
 A class for validating `Area of Interest (AOI)` bounding box coordinates before DEM data acquisition.
-#### Methods
+### Methods
 `__init__(self, west, south, east, north)`
 
 Initializes the AOI validator with bounding box coordinates.
@@ -150,8 +150,53 @@ Returns a string description of the roughness computation.
 
 - Returns: str describing the input and output raster files
 
-## AOIValidator Class
-::: raster
+## ThalwegExtractor Class
+
+A class for extracting the main channel (thalweg) from a Digital Elevation Model (DEM).
+
+### Methods
+`__init__(self, dem_file, output_vector="Thalweg.shp", threshold=1000, outlet_coords=None)`
+
+Initializes the thalweg extraction.
+
+- `dem_file`: Input DEM raster file
+
+- `output_vector`: Output shapefile path
+
+- `threshold`: Minimum flow accumulation threshold
+
+- `outlet_coords`: Outlet coordinates in DEM CRS
+
+`compute(self)`
+
+Runs the full thalweg extraction workflow (hydrology computation, outlet detection, tracing, and export).
+
+- Returns: Path to the generated shapefile, or None if extraction fails
+
+`_compute_hydrology(self)`
+
+Computes flow direction and flow accumulation from the DEM.
+
+- Returns: Grid object, DEM raster, flow direction array, and flow accumulation array
+
+`_get_outlet(self, flow_acc, dem)`
+
+Determines the outlet cell used as the starting point for tracing.
+
+- Returns: Tuple (row, col) representing the outlet cell
+
+`_trace_thalweg(self, flow_dir, flow_acc, dem, outlet)`
+
+Traces the upstream flow path based on maximum accumulation.
+
+- Returns: LineString geometry of the thalweg, or None if too short
+
+`_export_vector(self, line, dem)`
+
+Exports the extracted thalweg as a shapefile.
+
+- Returns: Path to the saved shapefile
+
 ## AOIValidator Class
 ::: raster
 ## pdfdocument.py
