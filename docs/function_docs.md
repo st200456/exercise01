@@ -17,17 +17,21 @@ All outputs are saved inside the /data and /results directories.
 A class for validating Area of Interest (AOI) bounding box coordinates before DEM data acquisition.
 #### Methods
 `__init__(self, west, south, east, north)`
+
 Initializes the AOI validator with bounding box coordinates.
 - west (float): Western longitude
 - south (float): Southern latitude
 - east (float): Eastern longitude
 - north (float): Northern latitude
-'validate(self)'
-Runs validation checks on the coordinates (type, geographic range, and logical order).
+`validate(self)`
+Runs validation checks on the coordinates (type, geographic range, and logical order)
+
 Returns: bool indicating whether the AOI is valid
+
 Raises: ValueError if validation fails
-'get_bbox(self)'
+`get_bbox(self)`
 Returns the bounding box coordinates as a dictionary
+
 Returns: dict containing west, south, east, and north coordinates
 
 ## pdfdocument.py
