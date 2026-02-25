@@ -197,13 +197,30 @@ Exports the extracted thalweg as a shapefile.
 
 - Returns: Path to the saved shapefile
 
-## AOIValidator Class
-::: raster
-## pdfdocument.py
-::: pdfdocument
-## pdfdocument.py
-::: pdfdocument
-## pdfdocument.py
-::: pdfdocument
-## pdfdocument.py
-::: pdfdocument
+## Profile Class
+
+A class for generating an elevation profile along a thalweg from a DEM raster.
+
+### Methods
+
+`__init__(self, dem_file, thalweg_shp, csv_out, fig_out, step)`
+
+Initializes the profile generator.
+
+- dem_file (str or Path): Input DEM raster file
+
+- thalweg_shp (str or Path): Input thalweg shapefile
+
+- csv_out (str or Path): Output CSV file path
+
+- fig_out (str or Path): Output profile figure path
+
+- step (float): Sampling distance along the line
+
+`compute(self)`
+
+Generates an elevation profile along the thalweg by sampling the DEM.
+
+- Returns: Tuple (csv_file, fig_file) with paths to the generated CSV and plot
+
+- Raises: ValueError if the shapefile is empty or invalid
