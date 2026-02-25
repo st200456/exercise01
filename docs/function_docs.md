@@ -19,10 +19,10 @@ A class for validating Area of Interest (AOI) bounding box coordinates before DE
 `__init__(self, west, south, east, north)`
 
 Initializes the AOI validator with bounding box coordinates.
-- west (float): Western longitude
-- south (float): Southern latitude
-- east (float): Eastern longitude
-- north (float): Northern latitude
+- `west` (`float`): Western longitude
+- `south` (`float`): Southern latitude
+- `east` (`float`): Eastern longitude
+- `north` (`float`): Northern latitude
   
 `validate(self)`
 
@@ -32,11 +32,11 @@ Runs all verification checks (type, range, and logical order).
 
 - Raises: `ValueError` if validation fails
 
-`get_bbox(self)`
+`_check_types(self)`
 
-Returns the bounding box coordinates as a dictionary
+Checks that all inputs are numeric (`int` or `float`).
 
-Returns: dict containing west, south, east, and north coordinates
+Raises: `ValueError` if any coordinate is not numeric
 
 ## pdfdocument.py
 ::: pdfdocument
