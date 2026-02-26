@@ -44,13 +44,13 @@ Runs all verification checks (type, range, and logical order).
 
 - Raises: `ValueError` if validation fails
 
-#### `_check_types(self)`
+#### `check_types(self)`
 
 Checks that all inputs are numeric (`int` or `float`).
 
 - Raises: `ValueError` if any coordinate is not numeric
 
-#### `_check_ranges(self)`
+#### `check_ranges(self)`
 
 Checks that coordinates fall within valid WGS84 ranges:
 
@@ -60,7 +60,7 @@ Checks that coordinates fall within valid WGS84 ranges:
 
 - Raises: `ValueError` if out of range
 
-#### `_check_logic(self)`
+#### `check_logic(self)`
 
 Checks that min/max coordinate order is correct.
 
@@ -86,7 +86,9 @@ A class for downloading `Digital Elevation Model (DEM)` data from the OpenTopogr
 
 Initializes the `DEM fetcher` and requires `api_key`.
 
-- `api_key` (`str` or `None`): OpenTopography API key for higher request limits
+- `api_key` (`str`): OpenTopography API key for higher request limits
+- `demtype` (`str`): Digital Elevation Model dataset identifier
+- `base_url` (`str`): Base endpoint URL of the OpenTopography Global DEM API used to request elevation data
 
 #### `download(self, south, north, west, east, output_file="dem_wgs84.tif")`
 
@@ -100,13 +102,13 @@ Downloads a DEM GeoTIFF file for the specified bounding box.
 
 - `east` (`float`): Eastern longitude boundary
 
-- `output_file` (`str` or `Path`): Output file path for the DEM
+- `output_file` (`Path`): Output file path for the DEM
 
-Returns: Path to the downloaded DEM file
+Returns: `Path` to the downloaded DEM file
 
 Raises: Exception if the API request fails
 
-## 3. Landcover Class
+## 3. LandCoverFetcher Class
 
 A class for matching landcover raster data to the DEM resolution, extent, and coordinate system.
 
@@ -116,11 +118,11 @@ A class for matching landcover raster data to the DEM resolution, extent, and co
 
 Initializes the landcover matcher.
 
-- `output_file` (`str` or `Path`): Reference raster file (DEM)
+- `output_file` (`Path`): Reference raster file (DEM)
 
-- `output_src` (`str` or `Path`): Source landcover raster
+- `output_src` (`Path`): Source landcover raster
 
-- `output_landcover_file` (`str` or `Path`): Output matched landcover file
+- `output_landcover_file` (`Path`): Output matched landcover file
 
 #### `match(self)`
 
@@ -134,7 +136,7 @@ Returns a string description of the matching process.
 
 Returns: `str` describing the input and output raster files
 
-## 4. Roughness Class
+## 4. RoughnessCalculator Class
 
 A class for computing a Manning’s n roughness raster from landcover data.
 
@@ -143,9 +145,11 @@ A class for computing a Manning’s n roughness raster from landcover data.
 
 Initializes the roughness calculation.
 
-- `landcover_file`: Input landcover raster file
+- `MANNING_MAP`: Dictionary that maps land cover codes to Manning’s roughness coefficient (n)
+  
+- `landcover_file` (`Path`): Input landcover raster file
 
-- `out_file` (`str` or `Path`):: Output roughness raster file
+- `out_file` (`Path`): Output roughness raster file
 
 #### `compute(self)`
 
@@ -170,13 +174,13 @@ A class for extracting the main channel (thalweg) from a Digital Elevation Model
 
 Initializes the thalweg extraction.
 
-- `dem_file` (`str` or `Path`): Input DEM raster file
+- `dem_file` (`Path`): Input DEM raster file
 
-- `output_vector` (`str` or `Path`): Output shapefile path
+- `output_vector` (`Path`): Output shapefile path
 
-- `threshold` (`int` or `float`): Minimum flow accumulation threshold
+- `threshold` (`int`): Minimum flow accumulation threshold
 
-- `outlet_coords` (`tuple` or `None`): Outlet coordinates in DEM CRS
+- `outlet_coords` (`tuple`): Outlet coordinates in DEM CRS
 
 #### `compute(self)`
 
@@ -208,7 +212,7 @@ Exports the extracted thalweg as a shapefile.
 
 Returns: `Path` to the saved shapefile
 
-## 6. Profile Class
+## 6. ProfileSampler Class
 
 A class for generating an elevation profile along a thalweg from a DEM raster.
 
@@ -218,13 +222,13 @@ A class for generating an elevation profile along a thalweg from a DEM raster.
 
 Initializes the profile generator.
 
-- `dem_file` (`str` or `Path`): Input DEM raster file
+- `dem_file` (`Path`): Input DEM raster file
 
-- `thalweg_shp` (`str` or `Path`): Input thalweg shapefile
+- `thalweg_shp` (`Path`): Input thalweg shapefile
 
-- `csv_out` (`str` or `Path`): Output CSV file path
+- `csv_out` (`Path`): Output CSV file path
 
-- `fig_out` (`str` or `Path`): Output profile figure path
+- `fig_out` (`Path`): Output profile figure path
 
 - `step` (`float`): Sampling distance along the line
 
@@ -241,7 +245,7 @@ Raises: `ValueError` if the shapefile is empty or invalid
 
 Reads the `CRS (Spatial Reference System)` from a GDAL dataset.
 
-- `dataset` (`str` or `Path` or `gdal.Dataset`): Input raster path or an opened GDAL dataset.
+- `dataset` (`gdal.Dataset`): Input raster path or an opened GDAL dataset.
 
 Returns: `osr.SpatialReference` (detected `CRS` / `SRS`)
 
@@ -249,9 +253,9 @@ Returns: `osr.SpatialReference` (detected `CRS` / `SRS`)
 
 Reprojects a raster to UTM 32N (EPSG:32632) using GDAL Warp.
 
-- `input_file` (`str` or `Path`): Input raster file path.
+- `input_file` (`Path`): Input raster file path.
 
-- `output_file` (`str` or `Path` or `None`): Output GeoTIFF path. If None, a new file ending in _utm32n.tif is created.
+- `output_file` (`Path` or `None`): Output GeoTIFF path. If None, a new file ending in _utm32n.tif is created.
 
 Returns: `str` (path to the reprojected raster)
 
@@ -301,9 +305,9 @@ Returns: `list` (densified points)
 
 Writes distance/coordinate/elevation data to a CSV.
 
-- `csv_out` (`str` or `Path`): Output CSV path
+- `csv_out` (`Path`): Output CSV path
 
-- `profil_data` (`list[tuple]`): List of (dist, lon, lat, elev)
+- `profil_data` (`list`): List of (dist, lon, lat, elev)
 
 Returns: `None`
 
@@ -311,11 +315,11 @@ Returns: `None`
 
 Plots the longitudinal profile and saves it as a PNG.
 
-- `x` (`list[float]` or `np.ndarray`): Distances along the profile
+- `x` (`np.ndarray`): Distances along the profile
 
-- `zbed` (`list[float]` or `np.ndarray`): Elevation values
+- `zbed` (`np.ndarray`): Elevation values
 
-- `out_png` (`str` or `Path`): Output PNG path
+- `out_png` (`Path`): Output PNG path
 
 Returns: `None` (saves the figure)
 
