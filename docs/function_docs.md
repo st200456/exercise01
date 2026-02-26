@@ -2,7 +2,7 @@
 This page gives an overview of all the tool’s functions and custom classes, discussing what they do, input parameters, and output data types.
 
 ## 1. Main.py
-This script is the main entry point of the terrain-processing workflow. It validates an Area of Interest (AOI), downloads a DEM, aligns landcover data, computes roughness, extracts the thalweg, and generates an elevation profile along the extracted flow path (png and csv). It is worth mentioning that, all outputs are saved inside the /data and /results directories.
+This script is the main entry point of the terrain-processing workflow. It validates an Area of Interest (AOI), downloads a DEM, aligns landcover data, computes roughness, extracts the thalweg, and generates an elevation profile along the extracted flow path (png and csv). It is worth mentioning that, all inputs are saved in /data directory and all outputs in /results directory.
 
 The `Main.py` file serves as the entry point of the application.
 ### Overview
