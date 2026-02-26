@@ -21,7 +21,7 @@ Additionally, this section presents all the functions used in the model.
  - gdal_utils
  - standar_steps
    
-## AOIValidator Class
+## AOI Class
 A class to check the `Area of Interest (AOI)` bounding box coordinates before getting DEM data
 ### Methods
 
@@ -40,11 +40,9 @@ Initializes the `AOI validator` with bounding box coordinates.
 
 Runs all verification checks (type, range, and logical order).
 
-##### - Returns: 
-`Boolean value` (`True` if valid)
+- Returns: `Boolean value` (`True` if valid)
 
-##### - Raises: 
-`ValueError` if validation fails
+- Raises: `ValueError` if validation fails
 
 #### `_check_types(self)`
 
@@ -54,7 +52,7 @@ Checks that all inputs are numeric (`int` or `float`).
 
 #### `_check_ranges(self)`
 
-Checks that coordinates fall within valid WGS84 ranges.
+Checks that coordinates fall within valid WGS84 ranges:
 
 - Longitude must be between `-180` and `180`
 
@@ -76,17 +74,17 @@ Checks that min/max coordinate order is correct.
 
 Returns the bounding box coordinates as a dictionary.
 
-- Returns: dict with keys: `west`, `south`, `east`, `north`
+- Returns: dictionary with keys as: `west`, `south`, `east`, `north`
 
 ## 2. DemFetcher Class
 
-A class for downloading Digital Elevation Model (DEM) data from the OpenTopography API using the SRTMGL1 dataset.
+A class for downloading `Digital Elevation Model (DEM)` data from the OpenTopography API using the SRTMGL1 dataset.
 
 ### Methods
 
 #### `__init__(self, api_key=None)`
 
-Initializes the DEM fetcher.
+Initializes the `DEM fetcher` and requires `api_key`.
 
 - `api_key` (`str` or `None`): OpenTopography API key for higher request limits
 
@@ -147,21 +145,21 @@ Initializes the roughness calculation.
 
 - `landcover_file`: Input landcover raster file
 
-- `out_file`: Output roughness raster file
+- `out_file` (`str` or `Path`):: Output roughness raster file
 
 #### `compute(self)`
 
 Generates a roughness raster by mapping landcover classes to Manning’s n coefficients.
 
-- Returns: Path to the generated roughness raster file
+- Returns: `Path` to the generated roughness raster file
 
-- Raises: RuntimeError if the landcover raster cannot be opened
+- Raises: `RuntimeError` if the landcover raster cannot be opened
 
 #### `__str__(self)`
 
 Returns a string description of the roughness computation.
 
-- Returns: str describing the input and output raster files
+- Returns: `str` describing the input and output raster files
 
 ## 5. ThalwegExtractor Class
 
@@ -172,43 +170,43 @@ A class for extracting the main channel (thalweg) from a Digital Elevation Model
 
 Initializes the thalweg extraction.
 
-- `dem_file`: Input DEM raster file
+- `dem_file` (`str` or `Path`): Input DEM raster file
 
-- `output_vector`: Output shapefile path
+- `output_vector` (`str` or `Path`): Output shapefile path
 
-- `threshold`: Minimum flow accumulation threshold
+- `threshold` (`int` or `float`): Minimum flow accumulation threshold
 
-- `outlet_coords`: Outlet coordinates in DEM CRS
+- `outlet_coords` (tuple or None): Outlet coordinates in DEM CRS
 
 #### `compute(self)`
 
 Runs the full thalweg extraction workflow (hydrology computation, outlet detection, tracing, and export).
 
-- Returns: Path to the generated shapefile, or None if extraction fails
+- Returns: `Path` to the generated shapefile, or None if extraction fails
 
 #### `_compute_hydrology(self)`
 
 Computes flow direction and flow accumulation from the DEM.
 
-- Returns: Grid object, DEM raster, flow direction array, and flow accumulation array
+- Returns: `Grid object`, `DEM raster`, `flow direction array`, and `flow accumulation array`
 
 #### `_get_outlet(self, flow_acc, dem)`
 
 Determines the outlet cell used as the starting point for tracing.
 
-- Returns: Tuple (row, col) representing the outlet cell
+- Returns: `Tuple` (`row`, `col`) representing the outlet cell
 
 #### `_trace_thalweg(self, flow_dir, flow_acc, dem, outlet)`
 
 Traces the upstream flow path based on maximum accumulation.
 
-- Returns: LineString geometry of the thalweg, or None if too short
+- Returns: `LineString` geometry of the thalweg, or `None` if too short
 
 #### `_export_vector(self, line, dem)`
 
 Exports the extracted thalweg as a shapefile.
 
-- Returns: Path to the saved shapefile
+- Returns: `Path` to the saved shapefile
 
 ## 6. Profile Class
 
@@ -220,20 +218,115 @@ A class for generating an elevation profile along a thalweg from a DEM raster.
 
 Initializes the profile generator.
 
-- dem_file (str or Path): Input DEM raster file
+- `dem_file` (`str` or `Path`): Input DEM raster file
 
-- thalweg_shp (str or Path): Input thalweg shapefile
+- `thalweg_shp` (`str` or `Path`): Input thalweg shapefile
 
-- csv_out (str or Path): Output CSV file path
+- `csv_out` (`str` or `Path`): Output CSV file path
 
-- fig_out (str or Path): Output profile figure path
+- `fig_out` (`str` or `Path`): Output profile figure path
 
-- step (float): Sampling distance along the line
+- `step` (`float`): Sampling distance along the line
 
 #### `compute(self)`
 
 Generates an elevation profile along the thalweg by sampling the DEM.
 
-- Returns: Tuple (csv_file, fig_file) with paths to the generated CSV and plot
+- Returns: `Tuple` (csv_file, fig_file) with paths to the generated CSV and plot (png)
 
-- Raises: ValueError if the shapefile is empty or invalid
+- Raises: `ValueError` if the shapefile is empty or invalid
+
+## 7. Gdal_utils function
+#### `get_srs(dataset)`
+
+Reads the `CRS (Spatial Reference System)` from a GDAL dataset.
+
+- `dataset` (`str` or `Path` or `gdal.Dataset`): Input raster path or an opened GDAL dataset.
+
+- Returns: `osr.SpatialReference` (detected `CRS` / `SRS`)
+
+#### `reproject_to_utm32n(input_file, output_file=None)`
+
+Reprojects a raster to UTM 32N (EPSG:32632) using GDAL Warp.
+
+- `input_file` (`str` or `Path`): Input raster file path.
+
+- `output_file` (`str` or `Path` or `None`): Output GeoTIFF path. If None, a new file ending in _utm32n.tif is created.
+
+- Returns: `str` (path to the reprojected raster)
+
+#### `get_elevation(x_coord, y_coord, raster, bands, geo_trans)`
+
+Samples elevation values from a GDAL raster at a given coordinate.
+
+- x_coord (`float`): X coordinate (`lon/easting`)
+
+- y_coord (`float`): Y coordinate (`lat/northing`)
+
+- raster (`gdal.Dataset`): Opened GDAL dataset
+
+- bands (`int`): Number of raster bands
+
+- `geo_trans` (`tuple`: GDAL geotransform (GetGeoTransform())
+
+- Returns: `list` (`values` for each band)
+
+## 8. Standar_step function
+
+#### `area(south, north, west, east)`
+
+Calculates the approximate area of a bounding box.
+
+- `south` (`float`): Southern latitude (degrees)
+
+- `north` (`float`): Northern latitude (degrees)
+
+- `west` (`float`): Western longitude (degrees)
+
+- `east` (`float`): Eastern longitude (degrees)
+
+- Returns: `float` (area in km²)
+
+#### `densify_linestring(line, step)`
+
+Creates equally spaced points along a `LineString`.
+
+- `line` (`LineString`): Input line geometry
+
+- `step` (`float`): Sampling interval (line units, usually meters)
+
+- Returns: `list` (densified points)
+
+#### `write_to_csv(csv_out, profil_data)`
+
+Writes distance/coordinate/elevation data to a CSV.
+
+- `csv_out` (`str` or `Path`): Output CSV path
+
+- `profil_data` (`list[tuple]`): List of (dist, lon, lat, elev)
+
+- Returns: `None`
+
+#### `plot_profile(x, zbed, out_png)`
+
+Plots the longitudinal profile and saves it as a PNG.
+
+- `x` (`list[float]` or `np.ndarray`): Distances along the profile
+
+- `zbed` (`list[float]` or `np.ndarray`): Elevation values
+
+- `out_png` (`str` or `Path`): Output PNG path
+
+- Returns: `None` (saves the figure)
+
+#### `profile_from_raster(raster_path, line, npts)`
+
+Extracts an elevation/profile along a line from a raster using GDAL Warp.
+
+- `raster_path` (`str`): Path to the raster file.
+
+- `line` (`LineString`): Shapely line geometry used to sample the raster.
+
+- `npts` (`int`): Number of sampling points along the line.
+
+- Returns: `tuple` (`s`: distance along the line, `xy`: sampled coordinates, `z`: sampled raster values)
