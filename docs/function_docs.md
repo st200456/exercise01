@@ -23,11 +23,13 @@ Additionally, this section presents all the functions used in the model.
 ## AOIValidator Class
 A class to check the `Area of Interest (AOI)` bounding box coordinates before getting DEM data
 ### Methods
+
 #### `__init__(self, west, south, east, north)`
+
+Initializes the `AOI validator` with bounding box coordinates.
 
 ##### Input Parameters
 
-Initializes the `AOI validator` with bounding box coordinates.
 - `west` (`float`): Western longitude
 - `south` (`float`): Southern latitude
 - `east` (`float`): Eastern longitude
