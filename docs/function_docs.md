@@ -1,11 +1,13 @@
 # Documentation of Functions and Custom Classes
-This page gives an overview of all the tool’s functions and custom classes, explaining what they do, their input parameters, and the types of data they return.
-## Main.py
-This script is the main entry point of the terrain-processing workflow. It validates an Area of Interest (AOI), downloads a DEM, aligns landcover data, computes roughness, extracts the thalweg, and generates an elevation profile along the extracted flow path.
+This page gives an overview of all the tool’s functions and custom classes, discussing what they do, input parameters, and output data types.
+
+## 1. Main.py
+This script is the main entry point of the terrain-processing workflow. It validates an Area of Interest (AOI), downloads a DEM, aligns landcover data, computes roughness, extracts the thalweg, and generates an elevation profile along the extracted flow path (png and csv). It is worth mentioning that, all outputs are saved inside the /data and /results directories.
 
 The `Main.py` file serves as the entry point of the application.
 ### Overview
-It orchestrates all processing steps by calling the following custom classes:
+The following section shows all the classes used in the model:
+
  - AOI
  - DEMFetcher
  - LandCoverFetcher
@@ -13,13 +15,19 @@ It orchestrates all processing steps by calling the following custom classes:
  - ThalwegExtractor
  - ProfileSampler
 
-All outputs are saved inside the /data and /results directories.
+Additionally, this section presents all the functions used in the model.
+
+ - gdal_utils
+ - standar_steps
+   
 ## AOIValidator Class
-A class for validating `Area of Interest (AOI)` bounding box coordinates before DEM data acquisition.
+A class to check the `Area of Interest (AOI)` bounding box coordinates before getting DEM data
 ### Methods
 `__init__(self, west, south, east, north)`
 
-Initializes the AOI validator with bounding box coordinates.
+#### Input Parameters
+
+Initializes the `AOI validator` with bounding box coordinates.
 - `west` (`float`): Western longitude
 - `south` (`float`): Southern latitude
 - `east` (`float`): Eastern longitude
@@ -29,7 +37,7 @@ Initializes the AOI validator with bounding box coordinates.
 
 Runs all verification checks (type, range, and logical order).
 
-- Returns: `bool` (`True` if valid)
+- Returns: `Boolean value` (`True` if valid)
 
 - Raises: `ValueError` if validation fails
 
@@ -65,7 +73,7 @@ Returns the bounding box coordinates as a dictionary.
 
 - Returns: dict with keys: `west`, `south`, `east`, `north`
 
-## DemFetcher Class
+## 2. DemFetcher Class
 
 A class for downloading Digital Elevation Model (DEM) data from the OpenTopography API using the SRTMGL1 dataset.
 
@@ -95,7 +103,7 @@ Returns: Path to the downloaded DEM file
 
 Raises: Exception if the API request fails
 
-## Landcover Class
+## 3. Landcover Class
 
 A class for matching landcover raster data to the DEM resolution, extent, and coordinate system.
 
@@ -123,7 +131,7 @@ Returns a string description of the matching process.
 
 - Returns: `str` describing the input and output raster files
 
-## Roughness Class
+## 4. Roughness Class
 
 A class for computing a Manning’s n roughness raster from landcover data.
 
@@ -150,7 +158,7 @@ Returns a string description of the roughness computation.
 
 - Returns: str describing the input and output raster files
 
-## ThalwegExtractor Class
+## 5. ThalwegExtractor Class
 
 A class for extracting the main channel (thalweg) from a Digital Elevation Model (DEM).
 
@@ -197,7 +205,7 @@ Exports the extracted thalweg as a shapefile.
 
 - Returns: Path to the saved shapefile
 
-## Profile Class
+## 6. Profile Class
 
 A class for generating an elevation profile along a thalweg from a DEM raster.
 
