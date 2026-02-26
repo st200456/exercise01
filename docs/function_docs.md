@@ -40,9 +40,11 @@ Initializes the `AOI validator` with bounding box coordinates.
 
 Runs all verification checks (type, range, and logical order).
 
-- Returns: `Boolean value` (`True` if valid)
+##### - Returns: 
+`Boolean value` (`True` if valid)
 
-- Raises: `ValueError` if validation fails
+##### - Raises: 
+`ValueError` if validation fails
 
 #### `_check_types(self)`
 
