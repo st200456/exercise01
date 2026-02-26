@@ -76,7 +76,7 @@ Returns the bounding box coordinates as a dictionary.
 
 - Returns: dictionary with keys as: `west`, `south`, `east`, `north`
 
-## 2. DemFetcher Class
+## 2. DEMFetcher Class
 
 A class for downloading `Digital Elevation Model (DEM)` data from the OpenTopography API using the SRTMGL1 dataset.
 
