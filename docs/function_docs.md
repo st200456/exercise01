@@ -35,7 +35,7 @@ Initializes the `AOI validator` with bounding box coordinates.
 - `east` (`float`): Eastern longitude
 - `north` (`float`): Northern latitude
   
-`validate(self)`
+#### `validate(self)`
 
 Runs all verification checks (type, range, and logical order).
 
@@ -43,13 +43,13 @@ Runs all verification checks (type, range, and logical order).
 
 - Raises: `ValueError` if validation fails
 
-`_check_types(self)`
+#### `_check_types(self)`
 
 Checks that all inputs are numeric (`int` or `float`).
 
 - Raises: `ValueError` if any coordinate is not numeric
 
-`_check_ranges(self)`
+#### `_check_ranges(self)`
 
 Checks that coordinates fall within valid WGS84 ranges.
 
@@ -59,7 +59,7 @@ Checks that coordinates fall within valid WGS84 ranges.
 
 - Raises: `ValueError` if out of range
 
-`_check_logic(self)`
+#### `_check_logic(self)`
 
 Checks that min/max coordinate order is correct.
 
@@ -69,7 +69,7 @@ Checks that min/max coordinate order is correct.
 
 - Raises: `ValueError` if bounding box order is invalid
 
-`get_bbox(self)`
+#### `get_bbox(self)`
 
 Returns the bounding box coordinates as a dictionary.
 
@@ -81,13 +81,13 @@ A class for downloading Digital Elevation Model (DEM) data from the OpenTopograp
 
 ### Methods
 
-`__init__(self, api_key=None)`
+#### `__init__(self, api_key=None)`
 
 Initializes the DEM fetcher.
 
 - `api_key` (`str` or `None`): OpenTopography API key for higher request limits
 
-`download(self, south, north, west, east, output_file="dem_wgs84.tif")`
+#### `download(self, south, north, west, east, output_file="dem_wgs84.tif")`
 
 Downloads a DEM GeoTIFF file for the specified bounding box.
 
@@ -111,7 +111,7 @@ A class for matching landcover raster data to the DEM resolution, extent, and co
 
 ### Methods
 
-`__init__(self, output_file, output_src, output_landcover_file)`
+#### `__init__(self, output_file, output_src, output_landcover_file)`
 
 Initializes the landcover matcher.
 
@@ -121,13 +121,13 @@ Initializes the landcover matcher.
 
 - `output_landcover_file` (`str` or `Path`): Output matched landcover file
 
-`match(self)`
+#### `match(self)`
 
 Resamples and aligns the landcover raster to match the DEM projection, extent, and resolution.
 
 - Returns: `Path` to the matched landcover raster file
 
-`__str__(self)`
+#### `__str__(self)`
 
 Returns a string description of the matching process.
 
@@ -138,7 +138,7 @@ Returns a string description of the matching process.
 A class for computing a Manning’s n roughness raster from landcover data.
 
 ### Methods
-`__init__(self, landcover_file, out_file)`
+#### `__init__(self, landcover_file, out_file)`
 
 Initializes the roughness calculation.
 
@@ -146,7 +146,7 @@ Initializes the roughness calculation.
 
 - `out_file`: Output roughness raster file
 
-`compute(self)`
+#### `compute(self)`
 
 Generates a roughness raster by mapping landcover classes to Manning’s n coefficients.
 
@@ -154,7 +154,7 @@ Generates a roughness raster by mapping landcover classes to Manning’s n coeff
 
 - Raises: RuntimeError if the landcover raster cannot be opened
 
-`__str__(self)`
+#### `__str__(self)`
 
 Returns a string description of the roughness computation.
 
@@ -165,7 +165,7 @@ Returns a string description of the roughness computation.
 A class for extracting the main channel (thalweg) from a Digital Elevation Model (DEM).
 
 ### Methods
-`__init__(self, dem_file, output_vector="Thalweg.shp", threshold=1000, outlet_coords=None)`
+#### `__init__(self, dem_file, output_vector="Thalweg.shp", threshold=1000, outlet_coords=None)`
 
 Initializes the thalweg extraction.
 
@@ -177,31 +177,31 @@ Initializes the thalweg extraction.
 
 - `outlet_coords`: Outlet coordinates in DEM CRS
 
-`compute(self)`
+#### `compute(self)`
 
 Runs the full thalweg extraction workflow (hydrology computation, outlet detection, tracing, and export).
 
 - Returns: Path to the generated shapefile, or None if extraction fails
 
-`_compute_hydrology(self)`
+#### `_compute_hydrology(self)`
 
 Computes flow direction and flow accumulation from the DEM.
 
 - Returns: Grid object, DEM raster, flow direction array, and flow accumulation array
 
-`_get_outlet(self, flow_acc, dem)`
+#### `_get_outlet(self, flow_acc, dem)`
 
 Determines the outlet cell used as the starting point for tracing.
 
 - Returns: Tuple (row, col) representing the outlet cell
 
-`_trace_thalweg(self, flow_dir, flow_acc, dem, outlet)`
+#### `_trace_thalweg(self, flow_dir, flow_acc, dem, outlet)`
 
 Traces the upstream flow path based on maximum accumulation.
 
 - Returns: LineString geometry of the thalweg, or None if too short
 
-`_export_vector(self, line, dem)`
+#### `_export_vector(self, line, dem)`
 
 Exports the extracted thalweg as a shapefile.
 
@@ -213,7 +213,7 @@ A class for generating an elevation profile along a thalweg from a DEM raster.
 
 ### Methods
 
-`__init__(self, dem_file, thalweg_shp, csv_out, fig_out, step)`
+#### `__init__(self, dem_file, thalweg_shp, csv_out, fig_out, step)`
 
 Initializes the profile generator.
 
@@ -227,7 +227,7 @@ Initializes the profile generator.
 
 - step (float): Sampling distance along the line
 
-`compute(self)`
+#### `compute(self)`
 
 Generates an elevation profile along the thalweg by sampling the DEM.
 
